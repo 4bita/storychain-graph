@@ -1,6 +1,5 @@
-type ExampleEntity @entity {
-  id: ID!
-  count: BigInt!
-  headProfileId: BigInt! # uint256
-  headPubId: BigInt! # uint256
+type Story @entity(immutable: true) {
+  id: Bytes!
+  profileId: BigInt!
+  pubId: BigInt!
 }
