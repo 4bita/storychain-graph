@@ -1,60 +1,20 @@
-import { BigInt } from "@graphprotocol/graph-ts"
 import {
-  Registry,
   candidateRegistered,
   storyRegistered
 } from "../generated/Registry/Registry"
-import { ExampleEntity } from "../generated/schema"
+import { Story } from "../generated/schema"
+
 
 export function handlecandidateRegistered(event: candidateRegistered): void {
-  // Entities can be loaded from the store using a string ID; this ID
-  // needs to be unique across all entities of the same type
-  let entity = ExampleEntity.load(event.transaction.from.toHex())
-
-  // Entities only exist after they have been saved to the store;
-  // `null` checks allow to create entities on demand
-  if (!entity) {
-    entity = new ExampleEntity(event.transaction.from.toHex())
-
-    // Entity fields can be set using simple assignments
-    entity.count = BigInt.fromI32(0)
+  let event_id = event.transaction.from.toHex()
+  let story = Story.load(event_id)
+  if (!story) {
+    story = new Story(event_id)
   }
 
-  // BigInt and BigDecimal math are supported
-  entity.count = entity.count + BigInt.fromI32(1)
-
-  // Entity fields can be set based on event parameters
-  entity.headProfileId = event.params.headProfileId
-  entity.headPubId = event.params.headPubId
-
-  // Entities can be written to the store with `.save()`
-  entity.save()
-
-  // Note: If a handler doesn't require existing field values, it is faster
-  // _not_ to load the entity from the store. Instead, create it fresh with
-  // `new Entity(...)`, set the fields that should be updated and save the
-  // entity back to the store. Fields that were not set or unset remain
-  // unchanged, allowing for partial updates to be applied.
-
-  // It is also possible to access smart contracts from mappings. For
-  // example, the contract that has emitted the event can be connected to
-  // with:
-  //
-  // let contract = Contract.bind(event.address)
-  //
-  // The following functions can then be called on this contract to access
-  // state variables and other data:
-  //
-  // - contract.allStories(...)
-  // - contract.getStory(...)
-  // - contract.getStoryByHash(...)
-  // - contract.getStoryItemCandidateVotes(...)
-  // - contract.getStoryVotingDeadline(...)
-  // - contract.listStoryItemCandidates(...)
-  // - contract.protocolFeeUnderlying(...)
-  // - contract.storyAppendFee(...)
-  // - contract.storyRegisterFee(...)
-  // - contract.votingDuration(...)
+  story.profileId = event.params.profileId
+  story.pubId = event.params.pubId
+  story.save()
 }
 
 export function handlestoryRegistered(event: storyRegistered): void {}

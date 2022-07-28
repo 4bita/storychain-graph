@@ -1,5 +1,5 @@
 type Story @entity(immutable: true) {
-  id: Bytes!
+  id: ID!
   profileId: BigInt!
   pubId: BigInt!
 }
