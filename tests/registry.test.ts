@@ -7,8 +7,6 @@ import {
   afterAll
 } from "matchstick-as/assembly/index"
 import { BigInt, Bytes } from "@graphprotocol/graph-ts"
-import { ExampleEntity } from "../generated/schema"
-import { candidateRegistered } from "../generated/Registry/Registry"
 import { handlecandidateRegistered } from "../src/registry"
 import { createcandidateRegisteredEvent } from "./registry-utils"
 
